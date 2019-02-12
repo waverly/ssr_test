@@ -8,3 +8,9 @@ type Query {
     women: [Woman]!
 }
 
+mutation createAWoman {
+  createWoman(name:"Waverly Mandel", description:"Waverly has done so many cool things") {
+    name
+    description
+  }
+}
