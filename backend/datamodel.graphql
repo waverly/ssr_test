@@ -7,6 +7,5 @@ type User {
 type Woman {
   id: ID! @unique
   name: String!
-  description: String
   createdAt: DateTime!
 }

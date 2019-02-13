@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const loading = keyframes`
   from {
@@ -13,16 +13,20 @@ const loading = keyframes`
 `;
 
 const Form = styled.form`
-  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
-  background: rgba(0, 0, 0, 0.02);
-  border: 5px solid white;
   padding: 20px;
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
+  position: fixed;
+  width: 100vw;
+  left: 0;
+  bottom: 0;
+  background: black;
+
   label {
     display: block;
     margin-bottom: 1rem;
+    color: white;
   }
   input,
   textarea,
@@ -33,33 +37,84 @@ const Form = styled.form`
     border: 1px solid black;
     &:focus {
       outline: 0;
-      border-color: ${props => props.theme.red};
+      border-bottom: 2px solid ${props => props.theme.green};
     }
   }
   button,
-  input[type='submit'] {
+  input[type="submit"] {
     width: auto;
-    background: red;
-    color: white;
+    background: transparent;
+    color: ${props => props.theme.green};
     border: 0;
     font-size: 2rem;
     font-weight: 600;
     padding: 0.5rem 1.2rem;
+    border: 2px solid;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30%;
+    border-collapse: separate;
+    display: block;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    label {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      color: transparent;
+    }
+
+    input {
+      width: 100%;
+      width: 100%;
+      background-color: transparent;
+      border-bottom: 2px solid #00ff00;
+
+      /* placeholder text */
+
+      ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: #00ff00;
+        font-size: 14px;
+      }
+      ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #00ff00;
+        font-size: 14px;
+      }
+      :-ms-input-placeholder {
+        /* IE 10+ */
+        color: #00ff00;
+        font-size: 14px;
+      }
+      :-moz-placeholder {
+        /* Firefox 18- */
+        color: #00ff00;
+        font-size: 14px;
+      }
+
+      /* end placeholder text */
+    }
+    button {
+      width: 150px;
+    }
   }
   fieldset {
     border: 0;
     padding: 0;
+    display: flex;
 
     &[disabled] {
       opacity: 0.5;
     }
-    &::before {
-      height: 10px;
-      content: '';
-      display: block;
-      background-image: linear-gradient(to right, #ff3019 0%, #e2b04a 50%, #ff3019 100%);
-    }
-    &[aria-busy='true']::before {
+
+    &[aria-busy="true"]::before {
       background-size: 50% auto;
       animation: ${loading} 0.5s linear infinite;
     }

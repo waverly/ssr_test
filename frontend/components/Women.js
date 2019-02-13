@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import Woman from "./Woman";
+import CreateWoman from "./CreateWoman";
+import ThreeWomen from "./ThreeWomen";
 
 const ALL_WOMEN_QUERY = gql`
   query ALL_WOMEN_QUERY {
@@ -19,27 +21,35 @@ const Center = styled.div`
 `;
 
 const WomenList = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 60px;
   max-width: ${props => props.theme.maxWidth};
   margin: 0 auto;
+  padding-bottom: 300px;
 `;
 
-class Items extends Component {
+class Women extends Component {
+  componentDidUpdate() {
+    console.log("women component updated");
+  }
+
   render() {
     return (
       <Center>
-        <Query query={ALL_WOMEN_QUERY}>
+        <Query query={ALL_WOMEN_QUERY} refetch={true}>
           {({ data, error, loading }) => {
+            console.log("Women component rerendering");
+            console.log(data);
             if (loading) return <p>Loading...</p>;
             if (error) return <p>Error: {error.message}</p>;
             return (
-              <WomenList>
-                {data.women.map(woman => (
-                  <Woman woman={woman} key={woman.id} />
-                ))}
-              </WomenList>
+              <Fragment>
+                <ThreeWomen women={data.women} />
+                {/* <WomenList>
+                  {data.women.map(woman => (
+                    <Woman woman={woman} key={woman.id} />
+                  ))}
+                </WomenList> */}
+                <CreateWoman />
+              </Fragment>
             );
           }}
         </Query>
@@ -48,5 +58,5 @@ class Items extends Component {
   }
 }
 
-export default Items;
-export { ALL_ITEMS_QUERY };
+export default Women;
+export { ALL_WOMEN_QUERY };

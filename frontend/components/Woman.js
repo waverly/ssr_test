@@ -8,15 +8,11 @@ import formatMoney from "../lib/formatMoney";
 
 export default class Woman extends Component {
   static propTypes = {
-    item: PropTypes.object.isRequired
+    woman: PropTypes.object.isRequired
   };
 
   render() {
     const { woman } = this.props;
-    return (
-      <WomanStyles>
-        <h1>{woman.name}</h1>
-      </WomanStyles>
-    );
+    return <WomanStyles>{woman.name}</WomanStyles>;
   }
 }

@@ -7,6 +7,7 @@ const theme = {
   red: "#FF0000",
   black: "#393939",
   grey: "#3A3A3A",
+  green: "#00ff00",
   lightgrey: "#E1E1E1",
   offWhite: "#EDEDED",
   maxWidth: "1000px",
@@ -14,7 +15,6 @@ const theme = {
 };
 
 const StyledPage = styled.div`
-  background: white;
   color: ${props => props.theme.black};
 `;
 
@@ -44,6 +44,7 @@ injectGlobal`
     font-size: 1.5rem;
     line-height: 2;
     font-family: 'radnika_next';
+    background: black;
   }
   a {
     text-decoration: none;
