@@ -1011,18 +1011,54 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
+ // x needs to always be
 
 var calcX = function calcX(x) {
   if (typeof window === "undefined") {
     return 0;
   } else {
-    // measure centerpoint
-    var winWidth = window.innerWidth;
-    var center = winWidth / 2;
-    var distFromCenter = x - center;
+    if (x) {
+      var center = window.innerWidth / 2;
+      var distFromCenter = x - center;
+      var decimal = distFromCenter / center; // number between .7 and .9
+
+      var randVal = Math.floor(decimal * 0.9) + 0.7;
+      console.log((x - window.innerWidth / 2) / 100);
+      return (x - window.innerWidth / 2) / 100;
+    } else return 30;
   }
 };
+
+var calcY = function calcY(y) {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      var center = window.innerHeight / 2;
+      var distFromCenter = y - center;
+      return (y - window.innerHeight / 2) / 40;
+    } else return 0;
+  }
+}; // t.clientX,
+// t.clientY;
+// var e = window.innerWidth
+//   , i = window.innerHeight
+//   , n = (t.clientX - e / 2) / 100
+//   , r = (t.clientY - i / 2) / 10;
+// console.log(n, r),
+// TweenMax.to($(".item-top"), .5, {
+//     rotationX: r,
+//     ease: Power4.easeOut
+// }),
+// TweenMax.to($(".item-bottom"), .5, {
+//     rotationX: r,
+//     ease: Power4.easeOut
+// }),
+// TweenMax.to($(".main-container"), .5, {
+//     rotationY: n,
+//     ease: Power4.easeOut
+// })
+
 
 var WomenList =
 /*#__PURE__*/
@@ -1069,6 +1105,7 @@ function (_Component) {
         if (document.getElementById("womanList")) {
           var womanListHeight = document.getElementById("womanList").offsetHeight;
           document.body.style.height = womanListHeight + "px";
+          document.addEventListener("scroll", this._throttleScroll);
         }
       }
     }
@@ -1084,26 +1121,30 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      if (typeof window === "undefined") {
-        return 0;
-      } else if (typeof window != "undefined") {
-        document.addEventListener("scroll", this._throttleScroll);
-      }
-
+      // if (typeof window === "undefined") {
+      //   return 0;
+      // } else if (typeof window != "undefined") {
+      //   document.addEventListener("scroll", this._throttleScroll);
+      // }
       if (this.props.women) {
+        var transform = {
+          x: calcX(this.props.x),
+          y: calcY(this.props.y)
+        };
+        console.log(transform);
         var allWomen = this.props.women.map(function (woman) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "womanItem",
             key: woman.id,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 68
+              lineNumber: 125
             },
             __self: this
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 69
+              lineNumber: 126
             },
             __self: this
           }, woman.name));
@@ -1111,13 +1152,14 @@ function (_Component) {
         var containers = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["WomenListWrap"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 75
+            lineNumber: 132
           },
           __self: this
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["ContainerTop"], {
+          transform: transform,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 76
+            lineNumber: 133
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1127,13 +1169,13 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 77
+            lineNumber: 134
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 86
+            lineNumber: 143
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1142,13 +1184,13 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 87
+            lineNumber: 144
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 95
+            lineNumber: 152
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1157,7 +1199,7 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 96
+            lineNumber: 153
           },
           __self: this
         }, allWomen)));
@@ -1264,12 +1306,13 @@ var Woman = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].span.withC
 /*!****************************************!*\
   !*** ./components/styles/WomenList.js ***!
   \****************************************/
-/*! exports provided: WomenListWrap, Container, InnerWrap */
+/*! exports provided: WomenListWrap, ContainerTop, Container, InnerWrap */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WomenListWrap", function() { return WomenListWrap; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContainerTop", function() { return ContainerTop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Container", function() { return Container; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "InnerWrap", function() { return InnerWrap; });
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
@@ -1282,13 +1325,19 @@ var WomenListWrap = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].di
 }, function (props) {
   return props.theme.green;
 });
+var ContainerTop = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div.withConfig({
+  displayName: "WomenList__ContainerTop",
+  componentId: "sc-18a2oqn-1"
+})(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;outline:2px solid yellow;transform:", ";"], function (props) {
+  return props.transform.y && props.transform.x ? " rotateY(".concat(props.transform.y, "deg) rotateX(").concat(props.transform.x, "deg)\n        ") : " rotateY(0deg) rotateX(0deg)";
+});
 var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div.withConfig({
   displayName: "WomenList__Container",
-  componentId: "sc-18a2oqn-1"
+  componentId: "sc-18a2oqn-2"
 })(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;outline:2px solid yellow;"]);
 var InnerWrap = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div.withConfig({
   displayName: "WomenList__InnerWrap",
-  componentId: "sc-18a2oqn-2"
+  componentId: "sc-18a2oqn-3"
 })(["margin-top:", ";transform:", ";"], function (props) {
   return props.order ? "calc((-100vh / 3) * ".concat(props.order, ");") : "0";
 }, function (props) {

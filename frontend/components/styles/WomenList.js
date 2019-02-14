@@ -32,6 +32,20 @@ export const WomenListWrap = styled.div`
   }
 `;
 
+export const ContainerTop = styled.div`
+  height: calc(100vh / 3);
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 2px solid yellow;
+
+  transform: ${props =>
+    props.transform.y && props.transform.x
+      ? ` rotateY(${props.transform.y}deg) rotateX(${props.transform.x}deg)
+        `
+      : ` rotateY(0deg) rotateX(0deg)`};
+`;
+
 export const Container = styled.div`
   height: calc(100vh / 3);
   overflow: hidden;
