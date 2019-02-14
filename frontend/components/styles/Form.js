@@ -22,6 +22,7 @@ const Form = styled.form`
   left: 0;
   bottom: 0;
   background: black;
+  z-index: 10;
 
   label {
     display: block;
@@ -35,6 +36,8 @@ const Form = styled.form`
     padding: 0.5rem;
     font-size: 1rem;
     border: 1px solid black;
+    color: ${props => props.theme.green};
+    font-size: 16px;
     &:focus {
       outline: 0;
       border-bottom: 2px solid ${props => props.theme.green};

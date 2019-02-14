@@ -7,6 +7,7 @@ const Meta = () => (
     <link rel="shortcut icon" href="/static/favicon.png" />
     <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
     <title>Womxn's Day</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/101/three.min.js" />
   </Head>
 );
 

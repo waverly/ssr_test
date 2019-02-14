@@ -42,6 +42,7 @@ class CreateWoman extends Component {
               });
               // change them to the single item page
               console.log(res);
+              this.setState({ name: "Name Goes Here" });
             }}
           >
             <Error error={error} />
@@ -55,7 +56,7 @@ class CreateWoman extends Component {
                     name="name"
                     placeholder="Name Goes Here"
                     required
-                    value={this.state.title}
+                    value={this.state.name}
                     onChange={this.handleChange}
                   />
                 </label>
