@@ -19,8 +19,12 @@ const ALL_WOMEN_QUERY = gql`
 `;
 
 const Center = styled.div`
-  position: relative;
+  position: fixed;
   width: 100vw;
+  height: 100vh;
+  perspective: 150px;
+  top: 0;
+  left: 0;
 `;
 
 const ManifestoWrapper = styled.button`
@@ -55,6 +59,80 @@ const ManifestoWrapper = styled.button`
   }
 `;
 
+const calcX = x => {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (x) {
+      const center = window.innerWidth / 2;
+      const distFromCenter = x - center;
+
+      const decimal = distFromCenter / center;
+
+      // number between .7 and .9
+      const randVal = Math.floor(decimal * 0.9) + 0.7;
+
+      // console.log((x - window.innerWidth / 2) / 100);
+
+      return (x - window.innerWidth / 2) / 100;
+    } else return 30;
+  }
+};
+
+const calcY = y => {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      const center = window.innerHeight / 2;
+      const distFromCenter = y - center;
+
+      const matrix3DVal = (distFromCenter * 0.67) / center;
+
+      return distFromCenter;
+    } else return 0;
+  }
+};
+
+const calcMatrix3D1 = y => {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      const center = window.innerHeight / 2;
+      const distFromCenter = y - center;
+
+      const matrix3DVal = (distFromCenter * 0.3) / center;
+
+      // console.log({ center, distFromCenter, matrix3DVal });
+
+      return matrix3DVal;
+    } else return 0;
+  }
+};
+
+const calcMatrix3D2 = y => {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      const center = window.innerHeight / 2;
+      const absFromCenter = Math.abs(y - center);
+
+      const a = 0.89;
+      const b = 0.84;
+      const min = 0;
+      const max = center;
+      const x = absFromCenter;
+
+      const scaled = ((b - a) * (x - min)) / (max - min) + a;
+      console.log({ scaled });
+
+      return scaled;
+    } else return 0;
+  }
+};
+
 class Women extends Component {
   state = {
     x: null,
@@ -63,7 +141,12 @@ class Women extends Component {
   };
 
   _onMouseMove = e => {
-    this.setState({ x: e.screenX, y: e.screenY });
+    this.setState({
+      x: calcX(e.clientX),
+      y: calcY(e.clientY),
+      matrix3DVal1: calcMatrix3D1(e.clientY),
+      matrix3DVal2: calcMatrix3D2(e.clientY)
+    });
   };
 
   _closeManifesto = () => {
@@ -105,6 +188,8 @@ class Women extends Component {
                   women={data.women}
                   x={this.state.x}
                   y={this.state.y}
+                  matrix3DVal1={this.state.matrix3DVal1}
+                  matrix3DVal2={this.state.matrix3DVal2}
                 />
                 <CreateWoman />
               </Fragment>

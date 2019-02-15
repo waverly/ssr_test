@@ -10,39 +10,6 @@ import {
 
 // x needs to always be
 
-const calcX = x => {
-  if (typeof window === "undefined") {
-    return 0;
-  } else {
-    if (x) {
-      const center = window.innerWidth / 2;
-      const distFromCenter = x - center;
-
-      const decimal = distFromCenter / center;
-
-      // number between .7 and .9
-      const randVal = Math.floor(decimal * 0.9) + 0.7;
-
-      console.log((x - window.innerWidth / 2) / 100);
-
-      return (x - window.innerWidth / 2) / 100;
-    } else return 30;
-  }
-};
-
-const calcY = y => {
-  if (typeof window === "undefined") {
-    return 0;
-  } else {
-    if (y) {
-      const center = window.innerHeight / 2;
-      const distFromCenter = y - center;
-
-      return (y - window.innerHeight / 2) / 40;
-    } else return 0;
-  }
-};
-
 // t.clientX,
 // t.clientY;
 // var e = window.innerWidth
@@ -85,7 +52,7 @@ class WomenList extends Component {
     if (typeof window === "undefined") {
       return 0;
     } else if (typeof window != "undefined") {
-      document.removeEventListener("scroll", this._onScroll);
+      document.removeEventListener("scroll", this._throttleScroll);
     }
   }
 
@@ -106,20 +73,7 @@ class WomenList extends Component {
   _throttleScroll = _.throttle(this._onScroll, 100);
 
   render() {
-    // if (typeof window === "undefined") {
-    //   return 0;
-    // } else if (typeof window != "undefined") {
-    //   document.addEventListener("scroll", this._throttleScroll);
-    // }
-
     if (this.props.women) {
-      const transform = {
-        x: calcX(this.props.x),
-        y: calcY(this.props.y)
-      };
-
-      console.log(transform);
-
       const allWomen = this.props.women.map(woman => {
         return (
           <div className="womanItem" key={woman.id}>
@@ -129,11 +83,40 @@ class WomenList extends Component {
       });
 
       const containers = (
-        <WomenListWrap>
-          <ContainerTop transform={transform}>
+        <WomenListWrap
+        //   style={{
+        //     transform: `skew(${this.props.x * 10}deg)`
+        //   }}
+        >
+          <ContainerTop
+            style={{
+              //   transform: `rotateX(${this.props.y * -1}deg)`
+              transformOrigin: `bottom center`,
+              transform: `matrix3d(
+                1,
+                0,
+                0,
+                0,
+                0,
+                ${this.props.matrix3DVal2},
+                ${this.props.matrix3DVal1},
+                0,
+                0,
+                ${this.props.matrix3DVal1 * -1},
+                ${this.props.matrix3DVal2},
+                0,
+                0,
+                0,
+                0,
+                1
+              )`
+            }}
+          >
             <InnerWrap
               order={0}
-              scroll={this.state.scrollTop}
+              style={{
+                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+              }}
               id="womanList"
               className="womenWrapper"
             >
@@ -142,17 +125,45 @@ class WomenList extends Component {
           </ContainerTop>
           <Container>
             <InnerWrap
+              style={{
+                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+              }}
               order={1}
-              scroll={this.state.scrollTop}
               className="womenWrapper"
             >
               {allWomen}
             </InnerWrap>
           </Container>
-          <Container>
+          <Container
+            // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
+            style={{
+              //   transform: `rotateX(${this.props.y * -1}deg)`
+              transformOrigin: `top center`,
+              transform: `matrix3d(
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  ${this.props.matrix3DVal2},
+                  ${this.props.matrix3DVal1},
+                  0,
+                  0,
+                  ${this.props.matrix3DVal1 * -1},
+                  ${this.props.matrix3DVal2},
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                )`
+            }}
+          >
             <InnerWrap
+              style={{
+                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+              }}
               order={2}
-              scroll={this.state.scrollTop}
               className="womenWrapper"
             >
               {allWomen}
@@ -165,5 +176,13 @@ class WomenList extends Component {
     } else return null;
   }
 }
+
+// Set default props
+WomenList.defaultProps = {
+  x: 0,
+  y: 0,
+  matrix3DVal1: 0,
+  matrix3DVal2: 0
+};
 
 export default WomenList;

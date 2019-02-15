@@ -947,7 +947,7 @@ var ALL_WOMEN_QUERY = graphql_tag__WEBPACK_IMPORTED_MODULE_2___default()(_templa
 var Center = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.div.withConfig({
   displayName: "Women__Center",
   componentId: "da9jec-0"
-})(["position:relative;width:100vw;"]);
+})(["position:fixed;width:100vw;height:100vh;perspective:150px;top:0;left:0;"]);
 var ManifestoWrapper = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.button.withConfig({
   displayName: "Women__ManifestoWrapper",
   componentId: "da9jec-1"
@@ -956,6 +956,70 @@ var ManifestoWrapper = styled_components__WEBPACK_IMPORTED_MODULE_3___default.a.
 }, function (props) {
   return props.theme.green;
 });
+
+var calcX = function calcX(x) {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (x) {
+      var center = window.innerWidth / 2;
+      var distFromCenter = x - center;
+      var decimal = distFromCenter / center; // number between .7 and .9
+
+      var randVal = Math.floor(decimal * 0.9) + 0.7; // console.log((x - window.innerWidth / 2) / 100);
+
+      return (x - window.innerWidth / 2) / 100;
+    } else return 30;
+  }
+};
+
+var calcY = function calcY(y) {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      var center = window.innerHeight / 2;
+      var distFromCenter = y - center;
+      var matrix3DVal = distFromCenter * 0.67 / center;
+      return distFromCenter;
+    } else return 0;
+  }
+};
+
+var calcMatrix3D1 = function calcMatrix3D1(y) {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      var center = window.innerHeight / 2;
+      var distFromCenter = y - center;
+      var matrix3DVal = distFromCenter * 0.3 / center; // console.log({ center, distFromCenter, matrix3DVal });
+
+      return matrix3DVal;
+    } else return 0;
+  }
+};
+
+var calcMatrix3D2 = function calcMatrix3D2(y) {
+  if (typeof window === "undefined") {
+    return 0;
+  } else {
+    if (y) {
+      var center = window.innerHeight / 2;
+      var absFromCenter = Math.abs(y - center);
+      var a = 0.89;
+      var b = 0.84;
+      var min = 0;
+      var max = center;
+      var x = absFromCenter;
+      var scaled = (b - a) * (x - min) / (max - min) + a;
+      console.log({
+        scaled: scaled
+      });
+      return scaled;
+    } else return 0;
+  }
+};
 
 var Women =
 /*#__PURE__*/
@@ -983,8 +1047,10 @@ function (_Component) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_onMouseMove", function (e) {
       _this.setState({
-        x: e.screenX,
-        y: e.screenY
+        x: calcX(e.clientX),
+        y: calcY(e.clientY),
+        matrix3DVal1: calcMatrix3D1(e.clientY),
+        matrix3DVal2: calcMatrix3D2(e.clientY)
       });
     });
 
@@ -1006,7 +1072,7 @@ function (_Component) {
         onMouseMove: this._onMouseMove,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 75
+          lineNumber: 158
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_apollo__WEBPACK_IMPORTED_MODULE_1__["Query"], {
@@ -1014,7 +1080,7 @@ function (_Component) {
         refetch: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 97
+          lineNumber: 180
         },
         __self: this
       }, function (_ref) {
@@ -1024,36 +1090,38 @@ function (_Component) {
         if (loading) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 99
+            lineNumber: 182
           },
           __self: this
         }, "Loading...");
         if (error) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 100
+            lineNumber: 183
           },
           __self: this
         }, "Error: ", error.message);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 102
+            lineNumber: 185
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_WomenList__WEBPACK_IMPORTED_MODULE_7__["default"], {
           women: data.women,
           x: _this2.state.x,
           y: _this2.state.y,
+          matrix3DVal1: _this2.state.matrix3DVal1,
+          matrix3DVal2: _this2.state.matrix3DVal2,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 104
+            lineNumber: 187
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CreateWoman__WEBPACK_IMPORTED_MODULE_5__["default"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 109
+            lineNumber: 194
           },
           __self: this
         }));
@@ -1111,34 +1179,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
  // x needs to always be
-
-var calcX = function calcX(x) {
-  if (typeof window === "undefined") {
-    return 0;
-  } else {
-    if (x) {
-      var center = window.innerWidth / 2;
-      var distFromCenter = x - center;
-      var decimal = distFromCenter / center; // number between .7 and .9
-
-      var randVal = Math.floor(decimal * 0.9) + 0.7;
-      console.log((x - window.innerWidth / 2) / 100);
-      return (x - window.innerWidth / 2) / 100;
-    } else return 30;
-  }
-};
-
-var calcY = function calcY(y) {
-  if (typeof window === "undefined") {
-    return 0;
-  } else {
-    if (y) {
-      var center = window.innerHeight / 2;
-      var distFromCenter = y - center;
-      return (y - window.innerHeight / 2) / 40;
-    } else return 0;
-  }
-}; // t.clientX,
+// t.clientX,
 // t.clientY;
 // var e = window.innerWidth
 //   , i = window.innerHeight
@@ -1157,7 +1198,6 @@ var calcY = function calcY(y) {
 //     rotationY: n,
 //     ease: Power4.easeOut
 // })
-
 
 var WomenList =
 /*#__PURE__*/
@@ -1214,91 +1254,100 @@ function (_Component) {
       if (typeof window === "undefined") {
         return 0;
       } else if (typeof window != "undefined") {
-        document.removeEventListener("scroll", this._onScroll);
+        document.removeEventListener("scroll", this._throttleScroll);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      // if (typeof window === "undefined") {
-      //   return 0;
-      // } else if (typeof window != "undefined") {
-      //   document.addEventListener("scroll", this._throttleScroll);
-      // }
       if (this.props.women) {
-        var transform = {
-          x: calcX(this.props.x),
-          y: calcY(this.props.y)
-        };
-        console.log(transform);
         var allWomen = this.props.women.map(function (woman) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "womanItem",
             key: woman.id,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 125
+              lineNumber: 79
             },
             __self: this
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 126
+              lineNumber: 80
             },
             __self: this
           }, woman.name));
         });
-        var containers = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["WomenListWrap"], {
+        var containers = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["WomenListWrap"] //   style={{
+        //     transform: `skew(${this.props.x * 10}deg)`
+        //   }}
+        , {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 132
+            lineNumber: 86
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["ContainerTop"], {
-          transform: transform,
+          style: {
+            //   transform: `rotateX(${this.props.y * -1}deg)`
+            transformOrigin: "bottom center",
+            transform: "matrix3d(\n                1,\n                0,\n                0,\n                0,\n                0,\n                ".concat(this.props.matrix3DVal2, ",\n                ").concat(this.props.matrix3DVal1, ",\n                0,\n                0,\n                ").concat(this.props.matrix3DVal1 * -1, ",\n                ").concat(this.props.matrix3DVal2, ",\n                0,\n                0,\n                0,\n                0,\n                1\n              )")
+          },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 133
+            lineNumber: 91
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
           order: 0,
-          scroll: this.state.scrollTop,
+          style: {
+            transform: "translate3d(0px, -".concat(this.state.scrollTop, "px, 0px)")
+          },
           id: "womanList",
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 134
+            lineNumber: 115
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 143
+            lineNumber: 126
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
+          style: {
+            transform: "translate3d(0px, -".concat(this.state.scrollTop, "px, 0px)")
+          },
           order: 1,
-          scroll: this.state.scrollTop,
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 144
+            lineNumber: 127
           },
           __self: this
-        }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
+        }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"] // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
+        , {
+          style: {
+            //   transform: `rotateX(${this.props.y * -1}deg)`
+            transformOrigin: "top center",
+            transform: "matrix3d(\n                  1,\n                  0,\n                  0,\n                  0,\n                  0,\n                  ".concat(this.props.matrix3DVal2, ",\n                  ").concat(this.props.matrix3DVal1, ",\n                  0,\n                  0,\n                  ").concat(this.props.matrix3DVal1 * -1, ",\n                  ").concat(this.props.matrix3DVal2, ",\n                  0,\n                  0,\n                  0,\n                  0,\n                  1\n                )")
+          },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 152
+            lineNumber: 137
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
+          style: {
+            transform: "translate3d(0px, -".concat(this.state.scrollTop, "px, 0px)")
+          },
           order: 2,
-          scroll: this.state.scrollTop,
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 153
+            lineNumber: 162
           },
           __self: this
         }, allWomen)));
@@ -1308,8 +1357,15 @@ function (_Component) {
   }]);
 
   return WomenList;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]); // Set default props
 
+
+WomenList.defaultProps = {
+  x: 0,
+  y: 0,
+  matrix3DVal1: 0,
+  matrix3DVal2: 0
+};
 /* harmony default export */ __webpack_exports__["default"] = (WomenList);
 
 /***/ }),
@@ -1424,28 +1480,22 @@ __webpack_require__.r(__webpack_exports__);
 var WomenListWrap = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
   displayName: "WomenList__WomenListWrap",
   componentId: "sc-18a2oqn-0"
-})(["position:fixed;top:0;left:0;width:100%;height:100vh;-webkit-perspective:150px;perspective:150px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;}.womanItem{width:100vw;outline:1px solid ", ";display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:", ";text-transform:uppercase;}}"], function (props) {
-  return props.theme.green;
-}, function (props) {
+})(["position:fixed;top:0;left:0;width:80vw;left:10vw;top:0vh;height:90vh;-webkit-perspective:200px;perspective:200px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;}.womanItem{width:100%;background:", ";display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:black;text-transform:uppercase;}}"], function (props) {
   return props.theme.green;
 });
 var ContainerTop = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
   displayName: "WomenList__ContainerTop",
   componentId: "sc-18a2oqn-1"
-})(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;outline:2px solid yellow;transform:", ";"], function (props) {
-  return props.transform.y && props.transform.x ? " rotateY(".concat(props.transform.y, "deg) rotateX(").concat(props.transform.x, "deg)\n        ") : " rotateY(0deg) rotateX(0deg)";
-});
+})(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;"]);
 var Container = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
   displayName: "WomenList__Container",
   componentId: "sc-18a2oqn-2"
-})(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;outline:2px solid yellow;"]);
+})(["height:calc(100vh / 3);overflow:hidden;-webkit-box-sizing:border-box;box-sizing:border-box;"]);
 var InnerWrap = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
   displayName: "WomenList__InnerWrap",
   componentId: "sc-18a2oqn-3"
-})(["margin-top:", ";transform:", ";"], function (props) {
+})(["margin-top:", ";"], function (props) {
   return props.order ? "calc((-100vh / 3) * ".concat(props.order, ");") : "0";
-}, function (props) {
-  return props.scroll ? "translate3d(0px, -".concat(props.scroll, "px, 0px)") : null;
 });
 
 /***/ }),

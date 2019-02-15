@@ -4,10 +4,15 @@ export const WomenListWrap = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
-  -webkit-perspective: 150px;
-  perspective: 150px;
+  /* width: 100%;
+  height: 100vh; */
+
+  width: 80vw;
+  left: 10vw;
+  top: 0vh;
+  height: 90vh;
+  -webkit-perspective: 200px;
+  perspective: 200px;
 
   .womenWrapper {
     -webkit-backface-visibility: hidden;
@@ -18,15 +23,15 @@ export const WomenListWrap = styled.div`
   }
 
   .womanItem {
-    width: 100vw;
-    outline: 1px solid ${props => props.theme.green};
+    width: 100%;
+    background: ${props => props.theme.green};
     display: flex;
     justify-content: center;
     align-items: center;
     -webkit-transform: translate3d(0, 0, 0);
 
     h1 {
-      color: ${props => props.theme.green};
+      color: black;
       text-transform: uppercase;
     }
   }
@@ -37,13 +42,6 @@ export const ContainerTop = styled.div`
   overflow: hidden;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  outline: 2px solid yellow;
-
-  transform: ${props =>
-    props.transform.y && props.transform.x
-      ? ` rotateY(${props.transform.y}deg) rotateX(${props.transform.x}deg)
-        `
-      : ` rotateY(0deg) rotateX(0deg)`};
 `;
 
 export const Container = styled.div`
@@ -51,12 +49,9 @@ export const Container = styled.div`
   overflow: hidden;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  outline: 2px solid yellow;
 `;
 
 export const InnerWrap = styled.div`
   margin-top: ${props =>
     props.order ? `calc((-100vh / 3) * ${props.order});` : "0"};
-  transform: ${props =>
-    props.scroll ? `translate3d(0px, -${props.scroll}px, 0px)` : null};
 `;
