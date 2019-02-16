@@ -8,28 +8,6 @@ import {
   InnerWrap
 } from "./styles/WomenList";
 
-// x needs to always be
-
-// t.clientX,
-// t.clientY;
-// var e = window.innerWidth
-//   , i = window.innerHeight
-//   , n = (t.clientX - e / 2) / 100
-//   , r = (t.clientY - i / 2) / 10;
-// console.log(n, r),
-// TweenMax.to($(".item-top"), .5, {
-//     rotationX: r,
-//     ease: Power4.easeOut
-// }),
-// TweenMax.to($(".item-bottom"), .5, {
-//     rotationX: r,
-//     ease: Power4.easeOut
-// }),
-// TweenMax.to($(".main-container"), .5, {
-//     rotationY: n,
-//     ease: Power4.easeOut
-// })
-
 class WomenList extends Component {
   state = {
     scrollTop: 0
@@ -39,11 +17,15 @@ class WomenList extends Component {
     if (typeof window === "undefined") {
       return 0;
     } else if (typeof window != "undefined") {
+      console.log("state scrolltop is ", this.state.scrollTop);
       if (document.getElementById("womanList")) {
         const womanListHeight = document.getElementById("womanList")
           .offsetHeight;
         document.body.style.height = womanListHeight + "px";
-        document.addEventListener("scroll", this._throttleScroll);
+        document.body.scrollTop = 0;
+        this.setState({ scrollTop: 0 });
+
+        document.addEventListener("scroll", this._onScroll);
       }
     }
   }
@@ -57,8 +39,7 @@ class WomenList extends Component {
   }
 
   _onScroll = e => {
-    console.log("runningonScroll");
-
+    console.log(this.state.scrollTop);
     const bodyScrollTop =
       window.pageYOffset !== undefined
         ? window.pageYOffset
@@ -67,7 +48,10 @@ class WomenList extends Component {
             document.body.parentNode ||
             document.body
           ).scrollTop;
-    this.setState({ scrollTop: bodyScrollTop });
+    if (bodyScrollTop > 5) {
+      console.log("runningonScroll");
+      this.setState({ scrollTop: bodyScrollTop });
+    }
   };
 
   _throttleScroll = _.throttle(this._onScroll, 100);
@@ -84,11 +68,11 @@ class WomenList extends Component {
 
       const containers = (
         <WomenListWrap
-        //   style={{
-        //     transform: `skew(${this.props.x * 10}deg)`
-        //   }}
+          style={{
+            transform: `skew(${this.props.x * 2}deg)`
+          }}
         >
-          <ContainerTop
+          <Container
             style={{
               //   transform: `rotateX(${this.props.y * -1}deg)`
               transformOrigin: `bottom center`,
@@ -122,10 +106,12 @@ class WomenList extends Component {
             >
               {allWomen}
             </InnerWrap>
-          </ContainerTop>
+          </Container>
           <Container>
             <InnerWrap
               style={{
+                position: `relative`,
+                zIndex: `10`,
                 transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
               }}
               order={1}
@@ -181,8 +167,8 @@ class WomenList extends Component {
 WomenList.defaultProps = {
   x: 0,
   y: 0,
-  matrix3DVal1: 0,
-  matrix3DVal2: 0
+  matrix3DVal1: 0.18,
+  matrix3DVal2: 0.89
 };
 
 export default WomenList;

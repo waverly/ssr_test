@@ -75,7 +75,7 @@ const calcX = x => {
       // console.log((x - window.innerWidth / 2) / 100);
 
       return (x - window.innerWidth / 2) / 100;
-    } else return 30;
+    }
   }
 };
 
@@ -102,7 +102,7 @@ const calcMatrix3D1 = y => {
       const center = window.innerHeight / 2;
       const distFromCenter = y - center;
 
-      const matrix3DVal = (distFromCenter * 0.3) / center;
+      const matrix3DVal = (distFromCenter * 0.5) / center;
 
       // console.log({ center, distFromCenter, matrix3DVal });
 
@@ -119,8 +119,8 @@ const calcMatrix3D2 = y => {
       const center = window.innerHeight / 2;
       const absFromCenter = Math.abs(y - center);
 
-      const a = 0.89;
-      const b = 0.84;
+      const a = 0.99;
+      const b = 0.74;
       const min = 0;
       const max = center;
       const x = absFromCenter;

@@ -14,6 +14,15 @@ class MyApp extends App {
     return { pageProps };
   }
 
+  componentDidMount() {
+    if (typeof window === "undefined") {
+      return 0;
+    } else if (typeof window != "undefined") {
+      document.body.scrollTop = 0;
+      window.scrollTop = 0;
+    }
+  }
+
   render() {
     const { Component, apollo, pageProps } = this.props;
 
