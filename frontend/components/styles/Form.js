@@ -23,6 +23,7 @@ const Form = styled.form`
   bottom: 0;
   background: black;
   z-index: 10;
+  height: 100px;
 
   label {
     display: block;

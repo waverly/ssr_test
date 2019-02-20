@@ -1,12 +1,7 @@
 import React, { Component, Fragment } from "react";
 import styled from "styled-components";
 import * as _ from "lodash";
-import {
-  WomenListWrap,
-  Container,
-  ContainerTop,
-  InnerWrap
-} from "./styles/WomenList";
+import { WomenListWrap, Container, InnerWrap } from "./styles/WomenList";
 import Share from "./Share";
 import { setBodyHeight } from "./helpers";
 
@@ -17,15 +12,9 @@ class WomenList extends Component {
   };
 
   componentDidMount() {
-    if (typeof window === "undefined") {
-      return 0;
-    } else if (typeof window != "undefined") {
-      document.body.scrollTop = 0;
-      this.setState({ scrollTop: 0 });
-      setBodyHeight();
-      document.addEventListener("scroll", this._throttleScroll);
-      window.addEventListener("resize", setBodyHeight);
-    }
+    setBodyHeight();
+    document.addEventListener("scroll", this._throttleScroll);
+    window.addEventListener("resize", setBodyHeight);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -58,21 +47,12 @@ class WomenList extends Component {
     }
   }
 
+  // This will run the first time setBodyHeight is called.
   _onScroll = e => {
-    // console.log(this.state.scrollTop);
-    const bodyScrollTop =
-      window.pageYOffset !== undefined
-        ? window.pageYOffset
-        : (
-            document.documentElement ||
-            document.body.parentNode ||
-            document.body
-          ).scrollTop;
-    if (bodyScrollTop > 5) {
-      console.log("runningonScroll");
-
-      this.setState({ scrollTop: bodyScrollTop });
-    }
+    console.log("on scroll called");
+    const bodyScrollTop = window.pageYOffset;
+    this.setState({ scrollTop: bodyScrollTop });
+    console.log(bodyScrollTop, document.body.scrollTop, this.state.scrollTop);
   };
 
   _throttleScroll = _.throttle(this._onScroll, 100);
@@ -80,8 +60,8 @@ class WomenList extends Component {
   render() {
     if (this.props.women) {
       const allWomen = this.props.women.map((woman, index) => {
+        //  try to move away from downloading whole list of names
         //  TODO: clean up ids - how to deal with duplicates?
-
         const personId =
           woman.name
             .replace(/[^a-zA-Z ]/g, "")
@@ -90,8 +70,8 @@ class WomenList extends Component {
 
         // console.log(personId);
         return (
-          <div id={personId} className="womanItem" key={woman.id}>
-            <h1>{woman.name}</h1>
+          <div id={personId} className="womanItem" key={woman.id + index}>
+            <h1>{woman.name + index}</h1>
           </div>
         );
       });
@@ -106,6 +86,7 @@ class WomenList extends Component {
             <Container
               style={{
                 //   transform: `rotateX(${this.props.y * -1}deg)`
+                background: "yellow",
                 transformOrigin: `bottom center`,
                 transform: `matrix3d(
                 1,
@@ -141,6 +122,7 @@ class WomenList extends Component {
             <Container>
               <InnerWrap
                 style={{
+                  background: "white",
                   position: `relative`,
                   zIndex: `10`,
                   transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
@@ -155,6 +137,7 @@ class WomenList extends Component {
               // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
               style={{
                 //   transform: `rotateX(${this.props.y * -1}deg)`
+
                 transformOrigin: `top center`,
                 transform: `matrix3d(
                   1,
@@ -178,6 +161,7 @@ class WomenList extends Component {
             >
               <InnerWrap
                 style={{
+                  background: "blue",
                   transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
                 }}
                 order={2}

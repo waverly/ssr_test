@@ -15,11 +15,25 @@ class MyApp extends App {
   }
 
   componentDidMount() {
+    // if ("scrollRestoration" in history) {
+    //   history.scrollRestoration = "manual";
+    // }
+
+    console.log("yo");
+    console.log("should be setting scroll to 00");
+    console.log(window.pageYOffset);
+    window &&
+      typeof window === "object" &&
+      window.scrollTo &&
+      typeof window.scrollTo === "function" &&
+      window.scrollTo(0, 0);
+
     if (typeof window === "undefined") {
       return 0;
     } else if (typeof window != "undefined") {
-      document.body.scrollTop = 0;
-      window.scrollTop = 0;
+      //   window.scrollTo(0, 0);
+      console.log(window.pageYOffset);
+      console.log(window.location);
     }
   }
 

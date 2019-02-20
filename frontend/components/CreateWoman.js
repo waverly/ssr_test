@@ -44,7 +44,7 @@ class CreateWoman extends Component {
               // change them to the single item page
               console.log(res);
               // set height of body again based on new item added
-              setBodyHeight();
+
               this.setState({ name: "Name Goes Here" });
             }}
           >

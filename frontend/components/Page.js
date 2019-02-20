@@ -32,6 +32,8 @@ injectGlobal`
   html {
     box-sizing: border-box;
     font-size: 10px;
+    height: 100%;
+    overflow: auto;
   }
   *, *:before, *:after {
     box-sizing: inherit;
@@ -43,6 +45,7 @@ injectGlobal`
     line-height: 2;
     font-family: 'radnika_next';
     background: black;
+    height: 10000px;
   }
   a {
     text-decoration: none;

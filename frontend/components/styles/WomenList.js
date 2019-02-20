@@ -13,6 +13,7 @@ export const WomenListWrap = styled.div`
   height: 90vh;
   -webkit-perspective: 200px;
   perspective: 200px;
+  /* overflow: hidden; */
 
   .womenWrapper {
     -webkit-backface-visibility: hidden;
@@ -41,6 +42,10 @@ export const WomenListWrap = styled.div`
       max-width: max-content;
       -webkit-text-stroke-width: 4px;
       -webkit-text-stroke-color: ${props => props.theme.green};
+      display: block;
+      margin-block-start: 10px;
+      margin-block-end: 10px;
+      height: auto;
     }
   }
 `;

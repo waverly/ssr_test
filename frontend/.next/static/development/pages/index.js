@@ -151,13 +151,11 @@ function (_Component) {
                       // change them to the single item page
                       console.log(res); // set height of body again based on new item added
 
-                      Object(_helpers__WEBPACK_IMPORTED_MODULE_8__["setBodyHeight"])();
-
                       _this2.setState({
                         name: "Name Goes Here"
                       });
 
-                    case 7:
+                    case 6:
                     case "end":
                       return _context.stop();
                   }
@@ -915,27 +913,40 @@ var calcX = function calcX(x) {
     return 0;
   } else {
     if (x) {
+      var newX = x;
+
+      if (x === 0) {
+        newX = x + 0.001;
+      }
+
+      console.log({
+        x: x,
+        newX: newX
+      });
       var center = window.innerWidth / 2;
-      var distFromCenter = x - center;
-      var decimal = distFromCenter / center; // number between .7 and .9
-
-      var randVal = Math.floor(decimal * 0.9) + 0.7; // console.log((x - window.innerWidth / 2) / 100);
-
-      return (x - window.innerWidth / 2) / 100;
+      var distFromCenter = newX - center;
+      var decimal = distFromCenter / center;
+      var randVal = Math.floor(decimal * 0.9) + 0.7;
+      return (newX - window.innerWidth / 2) / 100; // how to only update if x is not 0
     }
   }
 };
 
 var calcY = function calcY(y) {
   if (typeof window === "undefined") {
-    return 0;
+    console.log("type of window undefine");
+    return null;
   } else {
-    if (y) {
-      var center = window.innerHeight / 2;
-      var distFromCenter = y - center;
-      var matrix3DVal = distFromCenter * 0.67 / center;
-      return distFromCenter;
-    } else return 0;
+    var newY = y;
+
+    if (y === 0) {
+      newY = y + 0.001;
+    }
+
+    var center = window.innerHeight / 2;
+    var distFromCenter = newY - center;
+    var matrix3DVal = distFromCenter * 0.67 / center;
+    return distFromCenter;
   }
 };
 
@@ -955,6 +966,7 @@ var calcMatrix3D1 = function calcMatrix3D1(y) {
 
 var calcMatrix3D2 = function calcMatrix3D2(y) {
   if (typeof window === "undefined") {
+    console.log("window was undefined");
     return 0;
   } else {
     if (y) {
@@ -1023,7 +1035,7 @@ function (_Component) {
         onMouseMove: this._onMouseMove,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 158
+          lineNumber: 162
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_apollo__WEBPACK_IMPORTED_MODULE_1__["Query"], {
@@ -1031,7 +1043,7 @@ function (_Component) {
         refetch: true,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 180
+          lineNumber: 184
         },
         __self: this
       }, function (_ref) {
@@ -1041,21 +1053,21 @@ function (_Component) {
         if (loading) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 182
+            lineNumber: 186
           },
           __self: this
         }, "Loading...");
         if (error) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 183
+            lineNumber: 187
           },
           __self: this
         }, "Error: ", error.message);
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 185
+            lineNumber: 189
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_WomenList__WEBPACK_IMPORTED_MODULE_7__["default"], {
@@ -1066,13 +1078,13 @@ function (_Component) {
           matrix3DVal2: _this2.state.matrix3DVal2,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 187
+            lineNumber: 191
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CreateWoman__WEBPACK_IMPORTED_MODULE_5__["default"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 194
+            lineNumber: 198
           },
           __self: this
         }));
@@ -1158,16 +1170,14 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_onScroll", function (e) {
-      // console.log(this.state.scrollTop);
-      var bodyScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+      console.log("on scroll called");
+      var bodyScrollTop = window.pageYOffset;
 
-      if (bodyScrollTop > 5) {
-        console.log("runningonScroll");
+      _this.setState({
+        scrollTop: bodyScrollTop
+      });
 
-        _this.setState({
-          scrollTop: bodyScrollTop
-        });
-      }
+      console.log(bodyScrollTop, document.body.scrollTop, _this.state.scrollTop);
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_throttleScroll", lodash__WEBPACK_IMPORTED_MODULE_2__["throttle"](_this._onScroll, 100));
@@ -1178,17 +1188,9 @@ function (_Component) {
   _createClass(WomenList, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (typeof window === "undefined") {
-        return 0;
-      } else if (typeof window != "undefined") {
-        document.body.scrollTop = 0;
-        this.setState({
-          scrollTop: 0
-        });
-        Object(_helpers__WEBPACK_IMPORTED_MODULE_5__["setBodyHeight"])();
-        document.addEventListener("scroll", this._throttleScroll);
-        window.addEventListener("resize", _helpers__WEBPACK_IMPORTED_MODULE_5__["setBodyHeight"]);
-      }
+      Object(_helpers__WEBPACK_IMPORTED_MODULE_5__["setBodyHeight"])();
+      document.addEventListener("scroll", this._throttleScroll);
+      window.addEventListener("resize", _helpers__WEBPACK_IMPORTED_MODULE_5__["setBodyHeight"]);
     }
   }, {
     key: "componentDidUpdate",
@@ -1223,36 +1225,38 @@ function (_Component) {
       } else if (typeof window != "undefined") {
         document.removeEventListener("scroll", this._throttleScroll);
       }
-    }
+    } // This will run the first time setBodyHeight is called.
+
   }, {
     key: "render",
     value: function render() {
       if (this.props.women) {
         var allWomen = this.props.women.map(function (woman, index) {
+          //  try to move away from downloading whole list of names
           //  TODO: clean up ids - how to deal with duplicates?
           var personId = woman.name.replace(/[^a-zA-Z ]/g, "").split(" ").join("") + index; // console.log(personId);
 
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             id: personId,
             className: "womanItem",
-            key: woman.id,
+            key: woman.id + index,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 93
+              lineNumber: 73
             },
             __self: this
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 94
+              lineNumber: 74
             },
             __self: this
-          }, woman.name));
+          }, woman.name + index));
         });
         var containers = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 100
+            lineNumber: 80
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["WomenListWrap"], {
@@ -1261,18 +1265,19 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 101
+            lineNumber: 81
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           style: {
             //   transform: `rotateX(${this.props.y * -1}deg)`
+            background: "yellow",
             transformOrigin: "bottom center",
             transform: "matrix3d(\n                1,\n                0,\n                0,\n                0,\n                0,\n                ".concat(this.props.matrix3DVal2, ",\n                ").concat(this.props.matrix3DVal1, ",\n                0,\n                0,\n                ").concat(this.props.matrix3DVal1 * -1, ",\n                ").concat(this.props.matrix3DVal2, ",\n                0,\n                0,\n                0,\n                0,\n                1\n              )")
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 106
+            lineNumber: 86
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1284,17 +1289,18 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 130
+            lineNumber: 111
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 141
+            lineNumber: 122
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
           style: {
+            background: "white",
             position: "relative",
             zIndex: "10",
             transform: "translate3d(0px, -".concat(this.state.scrollTop, "px, 0px)")
@@ -1303,7 +1309,7 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 142
+            lineNumber: 123
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"] // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
@@ -1315,25 +1321,26 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 154
+            lineNumber: 136
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
           style: {
+            background: "blue",
             transform: "translate3d(0px, -".concat(this.state.scrollTop, "px, 0px)")
           },
           order: 2,
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 179
+            lineNumber: 162
           },
           __self: this
         }, allWomen))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Share__WEBPACK_IMPORTED_MODULE_4__["default"], {
           woman: this.state.newlyAddedItem,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 190
+            lineNumber: 174
           },
           __self: this
         }));
@@ -1371,12 +1378,11 @@ var setBodyHeight = function setBodyHeight() {
     return 0;
   } else if (typeof window != "undefined") {
     if (document.getElementById("womanList")) {
-      console.log("set body height is running");
-      var womanListHeight = document.getElementById("womanList").offsetHeight; // Added 100px to the bottom for padding -
-      // TODO: adjust for responsive
+      var womanListHeight = document.getElementById("womanList").scrollHeight; // TODO: adjust bottom padding for responsive
       // calculate half of window height and add to women's list
 
       var halfHeight = window.innerHeight / 2.5;
+      console.log("set body height is running, woman list height is ".concat(womanListHeight, ", window offset is ").concat(window.pageYOffset));
       document.body.style.height = womanListHeight + halfHeight + "px";
     }
   }
@@ -1399,7 +1405,7 @@ var loading = Object(styled_components__WEBPACK_IMPORTED_MODULE_0__["keyframes"]
 var Form = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].form.withConfig({
   displayName: "Form",
   componentId: "sc-1xszr8q-0"
-})(["padding:20px;font-size:1.5rem;line-height:1.5;font-weight:600;position:fixed;width:100vw;left:0;bottom:0;background:black;z-index:10;label{display:block;margin-bottom:1rem;color:white;}input,textarea,select{width:100%;padding:0.5rem;font-size:1rem;border:1px solid black;color:", ";font-size:16px;&:focus{outline:0;border-bottom:2px solid ", ";}}button,input[type=\"submit\"]{width:auto;background:transparent;color:", ";border:0;font-size:2rem;font-weight:600;padding:0.5rem 1.2rem;border:2px solid;font-size:2rem;font-weight:600;padding:0.5rem 1.2rem;border-radius:30%;border-collapse:separate;display:block;}.wrapper{display:flex;flex-direction:row;width:100%;justify-content:space-between;label{width:70%;display:flex;flex-direction:column;align-items:flex-start;color:transparent;}input{width:100%;width:100%;background-color:transparent;border-bottom:2px solid #00ff00;::-webkit-input-placeholder{color:#00ff00;font-size:14px;}::-moz-placeholder{color:#00ff00;font-size:14px;}:-ms-input-placeholder{color:#00ff00;font-size:14px;}:-moz-placeholder{color:#00ff00;font-size:14px;}}button{width:150px;}}fieldset{border:0;padding:0;display:flex;&[disabled]{opacity:0.5;}&[aria-busy=\"true\"]::before{background-size:50% auto;animation:", " 0.5s linear infinite;}}"], function (props) {
+})(["padding:20px;font-size:1.5rem;line-height:1.5;font-weight:600;position:fixed;width:100vw;left:0;bottom:0;background:black;z-index:10;height:100px;label{display:block;margin-bottom:1rem;color:white;}input,textarea,select{width:100%;padding:0.5rem;font-size:1rem;border:1px solid black;color:", ";font-size:16px;&:focus{outline:0;border-bottom:2px solid ", ";}}button,input[type=\"submit\"]{width:auto;background:transparent;color:", ";border:0;font-size:2rem;font-weight:600;padding:0.5rem 1.2rem;border:2px solid;font-size:2rem;font-weight:600;padding:0.5rem 1.2rem;border-radius:30%;border-collapse:separate;display:block;}.wrapper{display:flex;flex-direction:row;width:100%;justify-content:space-between;label{width:70%;display:flex;flex-direction:column;align-items:flex-start;color:transparent;}input{width:100%;width:100%;background-color:transparent;border-bottom:2px solid #00ff00;::-webkit-input-placeholder{color:#00ff00;font-size:14px;}::-moz-placeholder{color:#00ff00;font-size:14px;}:-ms-input-placeholder{color:#00ff00;font-size:14px;}:-moz-placeholder{color:#00ff00;font-size:14px;}}button{width:150px;}}fieldset{border:0;padding:0;display:flex;&[disabled]{opacity:0.5;}&[aria-busy=\"true\"]::before{background-size:50% auto;animation:", " 0.5s linear infinite;}}"], function (props) {
   return props.theme.green;
 }, function (props) {
   return props.theme.green;
@@ -1507,7 +1513,7 @@ __webpack_require__.r(__webpack_exports__);
 var WomenListWrap = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div.withConfig({
   displayName: "WomenList__WomenListWrap",
   componentId: "sc-18a2oqn-0"
-})(["position:fixed;top:0;left:0;width:80vw;left:10vw;top:0vh;height:90vh;-webkit-perspective:200px;perspective:200px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;padding-bottom:5%;}.womanItem{width:100%;background:transparent;display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:black;text-transform:uppercase;font-size:6vw;font-weight:900;text-align:center;width:100%;max-width:max-content;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:", ";}}"], function (props) {
+})(["position:fixed;top:0;left:0;width:80vw;left:10vw;top:0vh;height:90vh;-webkit-perspective:200px;perspective:200px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;padding-bottom:5%;}.womanItem{width:100%;background:transparent;display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:black;text-transform:uppercase;font-size:6vw;font-weight:900;text-align:center;width:100%;max-width:max-content;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:", ";display:block;margin-block-start:10px;margin-block-end:10px;height:auto;}}"], function (props) {
   return props.theme.green;
 });
 var Container = styled_components__WEBPACK_IMPORTED_MODULE_0__["default"].div.withConfig({
@@ -12133,7 +12139,7 @@ module.exports = gql;
   !*** ./node_modules/graphql/error/GraphQLError.mjs ***!
   \*****************************************************/
 /*! exports provided: GraphQLError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12284,7 +12290,7 @@ GraphQLError.prototype = Object.create(Error.prototype, {
   !*** ./node_modules/graphql/error/formatError.mjs ***!
   \****************************************************/
 /*! exports provided: formatError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12329,7 +12335,7 @@ function formatError(error) {
   !*** ./node_modules/graphql/error/index.mjs ***!
   \**********************************************/
 /*! exports provided: GraphQLError, syntaxError, locatedError, printError, formatError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12369,7 +12375,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/graphql/error/locatedError.mjs ***!
   \*****************************************************/
 /*! exports provided: locatedError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12407,7 +12413,7 @@ function locatedError(originalError, nodes, path) {
   !*** ./node_modules/graphql/error/printError.mjs ***!
   \***************************************************/
 /*! exports provided: printError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12558,7 +12564,7 @@ function lpad(len, str) {
   !*** ./node_modules/graphql/error/syntaxError.mjs ***!
   \****************************************************/
 /*! exports provided: syntaxError */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12589,7 +12595,7 @@ function syntaxError(source, position, description) {
   !*** ./node_modules/graphql/jsutils/defineToStringTag.mjs ***!
   \************************************************************/
 /*! exports provided: default */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12633,7 +12639,7 @@ function applyToStringTag(classObject) {
   !*** ./node_modules/graphql/jsutils/inspect.mjs ***!
   \**************************************************/
 /*! exports provided: default */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12688,7 +12694,7 @@ function inspect(value) {
   !*** ./node_modules/graphql/jsutils/invariant.mjs ***!
   \****************************************************/
 /*! exports provided: default */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12715,7 +12721,7 @@ function invariant(condition, message) {
   !*** ./node_modules/graphql/language/blockStringValue.mjs ***!
   \************************************************************/
 /*! exports provided: default */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12794,7 +12800,7 @@ function isBlank(str) {
   !*** ./node_modules/graphql/language/directiveLocation.mjs ***!
   \*************************************************************/
 /*! exports provided: DirectiveLocation */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12845,7 +12851,7 @@ var DirectiveLocation = Object.freeze({
   !*** ./node_modules/graphql/language/kinds.mjs ***!
   \*************************************************/
 /*! exports provided: Kind */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -12929,7 +12935,7 @@ var Kind = Object.freeze({
   !*** ./node_modules/graphql/language/lexer.mjs ***!
   \*************************************************/
 /*! exports provided: createLexer, TokenKind, getTokenDesc */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -13578,7 +13584,7 @@ function readName(source, start, line, col, prev) {
   !*** ./node_modules/graphql/language/location.mjs ***!
   \****************************************************/
 /*! exports provided: getLocation */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -13624,7 +13630,7 @@ function getLocation(source, position) {
   !*** ./node_modules/graphql/language/parser.mjs ***!
   \**************************************************/
 /*! exports provided: parse, parseValue, parseType, parseConstValue, parseTypeReference, parseNamedType */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -15153,7 +15159,7 @@ function many(lexer, openKind, parseFn, closeKind) {
   !*** ./node_modules/graphql/language/printer.mjs ***!
   \***************************************************/
 /*! exports provided: print */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -15477,7 +15483,7 @@ function printBlockString(value, isDescription) {
   !*** ./node_modules/graphql/language/source.mjs ***!
   \**************************************************/
 /*! exports provided: Source */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -15531,7 +15537,7 @@ Object(_jsutils_defineToStringTag__WEBPACK_IMPORTED_MODULE_1__["default"])(Sourc
   !*** ./node_modules/graphql/language/visitor.mjs ***!
   \***************************************************/
 /*! exports provided: QueryDocumentKeys, BREAK, visit, visitInParallel, visitWithTypeInfo, getVisitFn */
-/***/ (function(__webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);

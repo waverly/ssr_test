@@ -64,33 +64,37 @@ const calcX = x => {
     return 0;
   } else {
     if (x) {
+      let newX = x;
+      if (x === 0) {
+        newX = x + 0.001;
+      }
+      console.log({ x, newX });
       const center = window.innerWidth / 2;
-      const distFromCenter = x - center;
+      const distFromCenter = newX - center;
 
       const decimal = distFromCenter / center;
 
-      // number between .7 and .9
       const randVal = Math.floor(decimal * 0.9) + 0.7;
+      return (newX - window.innerWidth / 2) / 100;
 
-      // console.log((x - window.innerWidth / 2) / 100);
-
-      return (x - window.innerWidth / 2) / 100;
+      // how to only update if x is not 0
     }
   }
 };
 
 const calcY = y => {
   if (typeof window === "undefined") {
-    return 0;
+    console.log("type of window undefine");
+    return null;
   } else {
-    if (y) {
-      const center = window.innerHeight / 2;
-      const distFromCenter = y - center;
-
-      const matrix3DVal = (distFromCenter * 0.67) / center;
-
-      return distFromCenter;
-    } else return 0;
+    let newY = y;
+    if (y === 0) {
+      newY = y + 0.001;
+    }
+    const center = window.innerHeight / 2;
+    const distFromCenter = newY - center;
+    const matrix3DVal = (distFromCenter * 0.67) / center;
+    return distFromCenter;
   }
 };
 
@@ -105,7 +109,6 @@ const calcMatrix3D1 = y => {
       const matrix3DVal = (distFromCenter * 0.5) / center;
 
       // console.log({ center, distFromCenter, matrix3DVal });
-
       return matrix3DVal;
     } else return 0;
   }
@@ -113,6 +116,7 @@ const calcMatrix3D1 = y => {
 
 const calcMatrix3D2 = y => {
   if (typeof window === "undefined") {
+    console.log("window was undefined");
     return 0;
   } else {
     if (y) {

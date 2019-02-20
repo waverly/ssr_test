@@ -3,13 +3,15 @@ export const setBodyHeight = () => {
     return 0;
   } else if (typeof window != "undefined") {
     if (document.getElementById("womanList")) {
-      console.log("set body height is running");
-      const womanListHeight = document.getElementById("womanList").offsetHeight;
-      // Added 100px to the bottom for padding -
-      // TODO: adjust for responsive
+      const womanListHeight = document.getElementById("womanList").scrollHeight;
+      // TODO: adjust bottom padding for responsive
       // calculate half of window height and add to women's list
       const halfHeight = window.innerHeight / 2.5;
-
+      console.log(
+        `set body height is running, woman list height is ${womanListHeight}, window offset is ${
+          window.pageYOffset
+        }`
+      );
       document.body.style.height = womanListHeight + halfHeight + "px";
     }
   }
