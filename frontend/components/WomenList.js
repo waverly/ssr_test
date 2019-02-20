@@ -7,6 +7,7 @@ import {
   ContainerTop,
   InnerWrap
 } from "./styles/WomenList";
+import { setBodyHeight } from "./helpers";
 
 class WomenList extends Component {
   state = {
@@ -17,16 +18,24 @@ class WomenList extends Component {
     if (typeof window === "undefined") {
       return 0;
     } else if (typeof window != "undefined") {
-      console.log("state scrolltop is ", this.state.scrollTop);
-      if (document.getElementById("womanList")) {
-        const womanListHeight = document.getElementById("womanList")
-          .offsetHeight;
-        document.body.style.height = womanListHeight + "px";
-        document.body.scrollTop = 0;
-        this.setState({ scrollTop: 0 });
+      document.body.scrollTop = 0;
+      this.setState({ scrollTop: 0 });
+      setBodyHeight();
+      document.addEventListener("scroll", this._onScroll);
+    }
+  }
 
-        document.addEventListener("scroll", this._onScroll);
-      }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.women.length !== this.props.women.length) {
+      setBodyHeight();
+      console.log("a new woman has been added to the list.");
+      console.log(this.props.women[this.props.women.length - 1]);
+
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        left: 0,
+        behavior: "smooth"
+      });
     }
   }
 
@@ -39,7 +48,7 @@ class WomenList extends Component {
   }
 
   _onScroll = e => {
-    console.log(this.state.scrollTop);
+    // console.log(this.state.scrollTop);
     const bodyScrollTop =
       window.pageYOffset !== undefined
         ? window.pageYOffset
@@ -49,7 +58,7 @@ class WomenList extends Component {
             document.body
           ).scrollTop;
     if (bodyScrollTop > 5) {
-      console.log("runningonScroll");
+      // console.log("runningonScroll");
       this.setState({ scrollTop: bodyScrollTop });
     }
   };
@@ -58,9 +67,18 @@ class WomenList extends Component {
 
   render() {
     if (this.props.women) {
-      const allWomen = this.props.women.map(woman => {
+      const allWomen = this.props.women.map((woman, index) => {
+        //  TODO: clean up ids - how to deal with duplicates?
+
+        const personId =
+          woman.name
+            .replace(/[^a-zA-Z ]/g, "")
+            .split(" ")
+            .join("") + index;
+
+        // console.log(personId);
         return (
-          <div className="womanItem" key={woman.id}>
+          <div id={personId} className="womanItem" key={woman.id}>
             <h1>{woman.name}</h1>
           </div>
         );

@@ -20,6 +20,7 @@ export const WomenListWrap = styled.div`
     will-change: transform;
     -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    padding-bottom: 5%;
   }
 
   .womanItem {
@@ -33,7 +34,7 @@ export const WomenListWrap = styled.div`
     h1 {
       color: black;
       text-transform: uppercase;
-      font-size: 8em;
+      font-size: 6vw;
       font-weight: 900;
       -webkit-text-stroke-width: 4px;
       -webkit-text-stroke-color: ${props => props.theme.green};

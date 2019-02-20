@@ -5,6 +5,7 @@ import Router from "next/router";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
 import { ALL_WOMEN_QUERY } from "./Women";
+import { setBodyHeight } from "./helpers";
 
 const CREATE_WOMAN_MUTATION = gql`
   mutation CREATE_WOMAN_MUTATION($name: String!) {
@@ -42,6 +43,8 @@ class CreateWoman extends Component {
               });
               // change them to the single item page
               console.log(res);
+              // set height of body again based on new item added
+              setBodyHeight();
               this.setState({ name: "Name Goes Here" });
             }}
           >

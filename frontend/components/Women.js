@@ -126,7 +126,7 @@ const calcMatrix3D2 = y => {
       const x = absFromCenter;
 
       const scaled = ((b - a) * (x - min)) / (max - min) + a;
-      console.log({ scaled });
+      // console.log({ scaled });
 
       return scaled;
     } else return 0;

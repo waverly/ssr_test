@@ -116,6 +116,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_Form__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/Form */ "./components/styles/Form.js");
 /* harmony import */ var _ErrorMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ErrorMessage */ "./components/ErrorMessage.js");
 /* harmony import */ var _Women__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Women */ "./components/Women.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./helpers */ "./components/helpers/index.js");
 
 var _jsxFileName = "/Users/waverly/Documents/Development/womxn/womxnPrototype/ssr_test-master/frontend/components/CreateWoman.js";
 
@@ -154,6 +155,7 @@ function _templateObject() {
 }
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 
 
 
@@ -209,7 +211,7 @@ function (_Component) {
         variables: this.state,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 29
+          lineNumber: 30
         },
         __self: this
       }, function (createWoman, _ref) {
@@ -240,13 +242,15 @@ function (_Component) {
                     case 3:
                       res = _context.sent;
                       // change them to the single item page
-                      console.log(res);
+                      console.log(res); // set height of body again based on new item added
+
+                      Object(_helpers__WEBPACK_IMPORTED_MODULE_8__["setBodyHeight"])();
 
                       _this2.setState({
                         name: "Name Goes Here"
                       });
 
-                    case 6:
+                    case 7:
                     case "end":
                       return _context.stop();
                   }
@@ -260,14 +264,14 @@ function (_Component) {
           }(),
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 31
+            lineNumber: 32
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ErrorMessage__WEBPACK_IMPORTED_MODULE_6__["default"], {
           error: error,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 48
+            lineNumber: 51
           },
           __self: this
         }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("fieldset", {
@@ -275,21 +279,21 @@ function (_Component) {
           "aria-busy": loading,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 49
+            lineNumber: 52
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "wrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 50
+            lineNumber: 53
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
           htmlFor: "title",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 51
+            lineNumber: 54
           },
           __self: this
         }, "Name", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -302,14 +306,14 @@ function (_Component) {
           onChange: _this2.handleChange,
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 53
+            lineNumber: 56
           },
           __self: this
         })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
           type: "submit",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 63
+            lineNumber: 66
           },
           __self: this
         }, "Submit"))));
@@ -1012,10 +1016,8 @@ var calcMatrix3D2 = function calcMatrix3D2(y) {
       var min = 0;
       var max = center;
       var x = absFromCenter;
-      var scaled = (b - a) * (x - min) / (max - min) + a;
-      console.log({
-        scaled: scaled
-      });
+      var scaled = (b - a) * (x - min) / (max - min) + a; // console.log({ scaled });
+
       return scaled;
     } else return 0;
   }
@@ -1153,6 +1155,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "lodash");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _styles_WomenList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles/WomenList */ "./components/styles/WomenList.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers */ "./components/helpers/index.js");
 var _jsxFileName = "/Users/waverly/Documents/Development/womxn/womxnPrototype/ssr_test-master/frontend/components/WomenList.js";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1174,6 +1177,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1203,12 +1207,11 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "_onScroll", function (e) {
-      console.log(_this.state.scrollTop);
+      // console.log(this.state.scrollTop);
       var bodyScrollTop = window.pageYOffset !== undefined ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
 
       if (bodyScrollTop > 5) {
-        console.log("runningonScroll");
-
+        // console.log("runningonScroll");
         _this.setState({
           scrollTop: bodyScrollTop
         });
@@ -1226,17 +1229,26 @@ function (_Component) {
       if (typeof window === "undefined") {
         return 0;
       } else if (typeof window != "undefined") {
-        console.log("state scrolltop is ", this.state.scrollTop);
-
-        if (document.getElementById("womanList")) {
-          var womanListHeight = document.getElementById("womanList").offsetHeight;
-          document.body.style.height = womanListHeight + "px";
-          document.body.scrollTop = 0;
-          this.setState({
-            scrollTop: 0
-          });
-          document.addEventListener("scroll", this._onScroll);
-        }
+        document.body.scrollTop = 0;
+        this.setState({
+          scrollTop: 0
+        });
+        Object(_helpers__WEBPACK_IMPORTED_MODULE_4__["setBodyHeight"])();
+        document.addEventListener("scroll", this._onScroll);
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevProps.women.length !== this.props.women.length) {
+        Object(_helpers__WEBPACK_IMPORTED_MODULE_4__["setBodyHeight"])();
+        console.log("a new woman has been added to the list.");
+        console.log(this.props.women[this.props.women.length - 1]);
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          left: 0,
+          behavior: "smooth"
+        });
       }
     }
   }, {
@@ -1252,19 +1264,23 @@ function (_Component) {
     key: "render",
     value: function render() {
       if (this.props.women) {
-        var allWomen = this.props.women.map(function (woman) {
+        var allWomen = this.props.women.map(function (woman, index) {
+          //  TODO: clean up ids - how to deal with duplicates?
+          var personId = woman.name.replace(/[^a-zA-Z ]/g, "").split(" ").join("") + index; // console.log(personId);
+
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            id: personId,
             className: "womanItem",
             key: woman.id,
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 63
+              lineNumber: 81
             },
             __self: this
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 64
+              lineNumber: 82
             },
             __self: this
           }, woman.name));
@@ -1275,7 +1291,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 70
+            lineNumber: 88
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
@@ -1286,7 +1302,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 75
+            lineNumber: 93
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1298,13 +1314,13 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 99
+            lineNumber: 117
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"], {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 110
+            lineNumber: 128
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1317,7 +1333,7 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 111
+            lineNumber: 129
           },
           __self: this
         }, allWomen)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["Container"] // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
@@ -1329,7 +1345,7 @@ function (_Component) {
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 123
+            lineNumber: 141
           },
           __self: this
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_styles_WomenList__WEBPACK_IMPORTED_MODULE_3__["InnerWrap"], {
@@ -1340,7 +1356,7 @@ function (_Component) {
           className: "womenWrapper",
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 148
+            lineNumber: 166
           },
           __self: this
         }, allWomen)));
@@ -1360,6 +1376,39 @@ WomenList.defaultProps = {
   matrix3DVal2: 0.89
 };
 /* harmony default export */ __webpack_exports__["default"] = (WomenList);
+
+/***/ }),
+
+/***/ "./components/helpers/index.js":
+/*!*************************************!*\
+  !*** ./components/helpers/index.js ***!
+  \*************************************/
+/*! exports provided: setBodyHeight */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setBodyHeight", function() { return setBodyHeight; });
+var setBodyHeight = function setBodyHeight() {
+  console.log("inside set body height");
+
+  if (typeof window === "undefined") {
+    return 0;
+  } else if (typeof window != "undefined") {
+    if (document.getElementById("womanList")) {
+      var womanListHeight = document.getElementById("womanList").offsetHeight; // Added 100px to the bottom for padding -
+      // TODO: adjust for responsive
+      // calculate half of window height and add to women's list
+
+      var halfHeight = window.innerHeight / 2.5;
+      console.log({
+        halfHeight: halfHeight
+      });
+      document.body.style.height = womanListHeight + halfHeight + "px";
+      console.log("there is a woman list and the height is ", womanListHeight);
+    }
+  }
+};
 
 /***/ }),
 
@@ -1472,7 +1521,7 @@ __webpack_require__.r(__webpack_exports__);
 var WomenListWrap = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
   displayName: "WomenList__WomenListWrap",
   componentId: "sc-18a2oqn-0"
-})(["position:fixed;top:0;left:0;width:80vw;left:10vw;top:0vh;height:90vh;-webkit-perspective:200px;perspective:200px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;}.womanItem{width:100%;background:transparent;display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:black;text-transform:uppercase;font-size:8em;font-weight:900;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:", ";}}"], function (props) {
+})(["position:fixed;top:0;left:0;width:80vw;left:10vw;top:0vh;height:90vh;-webkit-perspective:200px;perspective:200px;.womenWrapper{-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;padding-bottom:5%;}.womanItem{width:100%;background:transparent;display:flex;justify-content:center;align-items:center;-webkit-transform:translate3d(0,0,0);h1{color:black;text-transform:uppercase;font-size:6vw;font-weight:900;-webkit-text-stroke-width:4px;-webkit-text-stroke-color:", ";}}"], function (props) {
   return props.theme.green;
 });
 var Container = styled_components__WEBPACK_IMPORTED_MODULE_0___default.a.div.withConfig({
