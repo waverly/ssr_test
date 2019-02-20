@@ -36,6 +36,9 @@ export const WomenListWrap = styled.div`
       text-transform: uppercase;
       font-size: 6vw;
       font-weight: 900;
+      text-align: center;
+      width: 100%;
+      max-width: max-content;
       -webkit-text-stroke-width: 4px;
       -webkit-text-stroke-color: ${props => props.theme.green};
     }

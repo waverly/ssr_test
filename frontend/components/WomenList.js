@@ -7,11 +7,13 @@ import {
   ContainerTop,
   InnerWrap
 } from "./styles/WomenList";
+import Share from "./Share";
 import { setBodyHeight } from "./helpers";
 
 class WomenList extends Component {
   state = {
-    scrollTop: 0
+    scrollTop: 0,
+    newlyAddedItem: null
   };
 
   componentDidMount() {
@@ -21,7 +23,8 @@ class WomenList extends Component {
       document.body.scrollTop = 0;
       this.setState({ scrollTop: 0 });
       setBodyHeight();
-      document.addEventListener("scroll", this._onScroll);
+      document.addEventListener("scroll", this._throttleScroll);
+      window.addEventListener("resize", setBodyHeight);
     }
   }
 
@@ -31,6 +34,14 @@ class WomenList extends Component {
       console.log("a new woman has been added to the list.");
       console.log(this.props.women[this.props.women.length - 1]);
 
+      const newElId = document.getElementById("womanList").lastChild.id;
+      const newlyAddedItem = {
+        name: this.props.women[this.props.women.length - 1].name,
+        id: newElId
+      };
+
+      console.log({ newElId });
+      this.setState({ newlyAddedItem });
       window.scrollTo({
         top: document.body.scrollHeight,
         left: 0,
@@ -58,7 +69,8 @@ class WomenList extends Component {
             document.body
           ).scrollTop;
     if (bodyScrollTop > 5) {
-      // console.log("runningonScroll");
+      console.log("runningonScroll");
+
       this.setState({ scrollTop: bodyScrollTop });
     }
   };
@@ -85,16 +97,17 @@ class WomenList extends Component {
       });
 
       const containers = (
-        <WomenListWrap
-          style={{
-            transform: `skew(${this.props.x * 2}deg)`
-          }}
-        >
-          <Container
+        <Fragment>
+          <WomenListWrap
             style={{
-              //   transform: `rotateX(${this.props.y * -1}deg)`
-              transformOrigin: `bottom center`,
-              transform: `matrix3d(
+              transform: `skew(${this.props.x * 2}deg)`
+            }}
+          >
+            <Container
+              style={{
+                //   transform: `rotateX(${this.props.y * -1}deg)`
+                transformOrigin: `bottom center`,
+                transform: `matrix3d(
                 1,
                 0,
                 0,
@@ -112,38 +125,38 @@ class WomenList extends Component {
                 0,
                 1
               )`
-            }}
-          >
-            <InnerWrap
-              order={0}
-              style={{
-                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
               }}
-              id="womanList"
-              className="womenWrapper"
             >
-              {allWomen}
-            </InnerWrap>
-          </Container>
-          <Container>
-            <InnerWrap
+              <InnerWrap
+                order={0}
+                style={{
+                  transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+                }}
+                id="womanList"
+                className="womenWrapper"
+              >
+                {allWomen}
+              </InnerWrap>
+            </Container>
+            <Container>
+              <InnerWrap
+                style={{
+                  position: `relative`,
+                  zIndex: `10`,
+                  transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+                }}
+                order={1}
+                className="womenWrapper"
+              >
+                {allWomen}
+              </InnerWrap>
+            </Container>
+            <Container
+              // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
               style={{
-                position: `relative`,
-                zIndex: `10`,
-                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
-              }}
-              order={1}
-              className="womenWrapper"
-            >
-              {allWomen}
-            </InnerWrap>
-          </Container>
-          <Container
-            // transform: matrix3d(1, 0, 0, 0, 0, 0.740218, -0.672367, 0, 0, 0.672367, 0.740218, 0, 0, 0, 0, 1);
-            style={{
-              //   transform: `rotateX(${this.props.y * -1}deg)`
-              transformOrigin: `top center`,
-              transform: `matrix3d(
+                //   transform: `rotateX(${this.props.y * -1}deg)`
+                transformOrigin: `top center`,
+                transform: `matrix3d(
                   1,
                   0,
                   0,
@@ -161,19 +174,21 @@ class WomenList extends Component {
                   0,
                   1
                 )`
-            }}
-          >
-            <InnerWrap
-              style={{
-                transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
               }}
-              order={2}
-              className="womenWrapper"
             >
-              {allWomen}
-            </InnerWrap>
-          </Container>
-        </WomenListWrap>
+              <InnerWrap
+                style={{
+                  transform: `translate3d(0px, -${this.state.scrollTop}px, 0px)`
+                }}
+                order={2}
+                className="womenWrapper"
+              >
+                {allWomen}
+              </InnerWrap>
+            </Container>
+          </WomenListWrap>
+          <Share woman={this.state.newlyAddedItem} />
+        </Fragment>
       );
 
       return containers;
